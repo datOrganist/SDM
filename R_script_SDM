@@ -1,0 +1,26 @@
+#Standard deviation from mode (SDM) 
+#Kvalseth, Tarald (1988): Measuring variation for nominal data. Bulletin of Psychonomic Society, 26(5), 433-436
+#SDM= 1-((1/((n^2)*(I-1)))*(sum((nm-n_i)^2)))^0.5
+
+SDM <- function(df){
+#number categories
+I <- length(unique(df))
+#value of mode
+nm <- as.numeric(max(table(df)))
+#total observations
+n <- length(df)
+
+#create df for squared deviations from mode
+sum<- data.frame()#sum=NA)
+for (i in table(df)) {
+  if (i < nm) {
+    x <- (nm-i)^2
+    sum <- rbind(sum,x)}
+}
+#sum up deviations
+sum <- as.numeric(colSums(sum[1],na.rm = T))
+#calculate SDM
+print(1-((1/((n^2)*(I-1)))*(sum))^0.5)
+#clean
+rm(I,nm,n,sum,x)
+}
